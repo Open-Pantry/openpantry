@@ -1,0 +1,35 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "openpantry-20181119192937-authRole",
+			"UnauthRoleArn": "arn:aws:iam::281354844734:role/openpantry-20181119192937-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::281354844734:role/openpantry-20181119192937-authRole",
+			"Region": "us-east-1",
+			"DeploymentBucketName": "openpantry-20181119192937-deployment",
+			"UnauthRoleName": "openpantry-20181119192937-unauthRole",
+			"StackName": "openpantry-20181119192937",
+			"StackId": "arn:aws:cloudformation:us-east-1:281354844734:stack/openpantry-20181119192937/5ec29670-ec5b-11e8-923b-50faeaee44fd"
+		}
+	},
+	"auth": {
+		"cognito3cc69257": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/openpantry-20181119192937-deployment/amplify-cfn-templates/auth/cognito3cc69257-cloudformation-template.yml",
+				"logicalId": "authcognito3cc69257"
+			},
+			"lastPushTimeStamp": "2018-11-20T00:33:27.212Z",
+			"output": {
+				"AppClientSecret": "p8r15dl4o368dsq6o64kafq07235sb41p3jvf0g8opk47qve9ve",
+				"UserPoolId": "us-east-1_6C4LLdzSO",
+				"AppClientIDWeb": "1uinirqome0pden4p6gm6dfdql",
+				"AppClientID": "48b3kck0kt6t164d7ece4c2cu1",
+				"IdentityPoolId": "us-east-1:0309891f-3a50-4043-9c11-16a1c12bf3f9",
+				"IdentityPoolName": "cognito3cc69257_identitypool_3cc69257",
+				"UserPoolName": "cognito3cc69257_userpool_3cc69257"
+			},
+			"lastPushDirHash": "3UQk7XwPFyyxIUpH4GqeA9aFIfA="
+		}
+	}
+}

@@ -1,5 +1,5 @@
 import { handleActions, createAction } from 'redux-actions';
-
+import { Auth } from 'aws-amplify';
 const base = 'org/';
 const INITIAL_STATE = {
   organizationName: '',
@@ -15,7 +15,7 @@ const INITIAL_STATE = {
   location: '',
   description: '',
   success: true,
-  validatedFields: true,
+  validatedFields: true
 };
 
 const setError = createAction(`${base}ERROR`);
@@ -50,21 +50,18 @@ export default handleActions(
       organizationName: payload,
       error: null,
       validatedFields: true
-
     }),
     [updateEmail]: (state, { payload }) => ({
       ...state,
       email: payload,
       error: null,
       validatedFields: true
-
     }),
     [updatePassword]: (state, { payload }) => ({
       ...state,
       password: payload,
       error: null,
       validatedFields: true
-
     }),
     [updateDescription]: (state, { payload }) => ({
       ...state,
@@ -114,32 +111,50 @@ export default handleActions(
   INITIAL_STATE
 );
 
-
-export const createOrganization = (payload) => (dispatch) => {
+export const createOrganization = payload => (dispatch) => {
   // TODO - Add location details heres
-  payload.visibility = 1;
-  fetch('/api/organization', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-    image: payload.image
+
+  Auth.signUp({
+    username: payload.email,
+    password: payload.password,
+    attributes: {
+      email: payload.email
+    }
   })
-    .then(response => response.json())
     .then((data) => {
-      // Update the state with the data
-      // This will force the re-render of the component
-      if (data.error == null) {
-        dispatch(updateSuccess(true));
-      } else {
-        dispatch(updateError(data));
-      }
+      console.log('Signed Up:', data);
+      var request = payload;
+      request.cognito_id = data.userSub;
+      request.visibility = 1;
+      console.log("Request Payload:",request);
+      fetch('/api/organization', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request),
+        image: payload.image
+      })
+        .then(response => response.json())
+        .then((d) => {
+          console.log("Response D: ",d);
+          // Update the state with the data
+          // This will force the re-render of the component
+          if (d.error == null) {
+            dispatch(updateSuccess(true));
+          } else {
+            dispatch(updateError(d));
+          }
+        });
+    })
+    .catch((err) => {
+      console.log('Error Signing Up:', err);
+      dispatch(updateError(err));
     });
 };
 
-export const checkForCompany = (payload) => (dispatch) => {
+export const checkForCompany = payload => (dispatch) => {
   fetch(`/api/organization?organizationName=${payload}`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', organizationName: payload },
+    headers: { 'Content-Type': 'application/json', organizationName: payload }
   })
     .then(response => response.json())
     .then((data) => {

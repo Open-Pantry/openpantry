@@ -4,12 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       description: DataTypes.TEXT,
-      start_time: DataTypes.DATE,
-      end_time: DataTypes.DATE
+      start_tm: DataTypes.DATE,
+      end_tm: DataTypes.DATE
     },
     {
       tableName: 'event',
-      timestamps: true
+      timestamps: false
     }
   );
   Event.associate = (models) => {

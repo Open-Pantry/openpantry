@@ -7,7 +7,9 @@ console.log("Credentials:",credentials.username);
 
 const sequelize = new Sequelize(credentials.database, credentials.username, credentials.password, {
   host: credentials.server,
-  dialect: 'postgres'
+  dialect: 'postgres',
+  omitNull: true,
+  port: 5432
 });
 
 const db = {};

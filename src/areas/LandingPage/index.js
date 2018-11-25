@@ -11,7 +11,7 @@ import {cyan500} from 'material-ui/styles/colors';
 
 import {
     updateSearchValue,
-    filterResults
+    filterResults,testAuth
 } from 'reduxStore/search';
 import {
     showSnackbar,
@@ -67,6 +67,8 @@ class LandingPage extends React.Component {
                     <div className="__landing-search-buttons">
                         <RaisedButton onClick={(e) => this.props.history.push("/signup")} className="__landing-search-button" label="Create Organization" secondary={true} />
                         <RaisedButton primary={true} onClick={this.enterSearchpage} className="__landing-search-button" type="Submit" label="Search" />
+                        <RaisedButton primary={true} onClick={() => this.props.testAuth(this.props.token)} className="__landing-search-button" type="Test" label="Test" />
+
                     </div>
                     <span onClick={() => this.props.history.push("/faq")}className="__landing-page-helptext">Need help? Search our help docs.</span>
                 </div>
@@ -81,10 +83,12 @@ class LandingPage extends React.Component {
 export default connect(state => ({
     searchValue: state.search.searchValue,
     loggedIn: state.login.loggedIn,
-    searchEntered: state.search.searchEntered
+    searchEntered: state.search.searchEntered,
+    token:state.login.token
 }), {
         updateSearchValue,
         showSnackbar,
         toggleMessage,
-        filterResults
+        filterResults,
+        testAuth
     })(LandingPage);

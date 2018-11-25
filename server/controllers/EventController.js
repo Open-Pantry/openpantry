@@ -6,8 +6,8 @@ module.exports.createNewEvent = function (req, res) {
     .create({
         name:req.body.name,
         description:req.body.description,
-        startTime:req.body.startTime,
-        endTime:req.body.endTime,
+        start_tm:req.body.startTime,
+        end_tm:req.body.endTime,
         organization_id:req.body.orgID
     })
     .then((event, create) => {

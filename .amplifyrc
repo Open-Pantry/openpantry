@@ -1,0 +1,14 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "openpantry-20181119192937-authRole",
+            "UnauthRoleArn": "arn:aws:iam::281354844734:role/openpantry-20181119192937-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::281354844734:role/openpantry-20181119192937-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "openpantry-20181119192937-deployment",
+            "UnauthRoleName": "openpantry-20181119192937-unauthRole",
+            "StackName": "openpantry-20181119192937",
+            "StackId": "arn:aws:cloudformation:us-east-1:281354844734:stack/openpantry-20181119192937/5ec29670-ec5b-11e8-923b-50faeaee44fd"
+        }
+    }
+}

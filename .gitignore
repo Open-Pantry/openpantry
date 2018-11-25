@@ -25,3 +25,9 @@ yarn-debug.log*
 yarn-error.log*
 
 /server/keys
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+/src/aws-exports.js

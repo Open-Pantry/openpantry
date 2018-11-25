@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
   const Account = sequelize.define(
@@ -6,13 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       admin_status: DataTypes.BOOLEAN,
       email: DataTypes.STRING,
-      password: {
-        type: DataTypes.STRING,
-        set: (v) => {
-          const password = bcrypt.hashSync(v, 5);
-          return this.setDataValue('password', password);
-        }
-      },
+      cognito_id: DataTypes.STRING,
       name: DataTypes.STRING,
       role: DataTypes.ENUM('employee', 'read_only', 'admin')
     },
@@ -23,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         associate(models) {}
       },
       tableName: 'account',
-      timestamps: true
+      timestamps: false
     }
   );
   return Account;

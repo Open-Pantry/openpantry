@@ -1,6 +1,5 @@
 var models = require('../models/database');
 var User = models.Account;
-var bcrypt = require('bcrypt');
 var Email = require("../models/email/email.js");
 
 module.exports.validateEmail =  (email, orgID) => {
@@ -39,11 +38,10 @@ module.exports.createUser = (req, res) => {
 
 module.exports.createUserWithInvitation =  (req, res) =>{
     console.log("Body:", req.body);
-    var tempPassword = bcrypt.hashSync(req.body.email, 5);
     var newUser = {
         email: req.body.email,
         name:req.body.name,
-        password: tempPassword,
+        cognito_id: 'temp',
         organization_id: req.body.orgID,
         role: "employee",
         adminStatus: 0
@@ -102,16 +100,7 @@ module.exports.checkPassword = function (email, password, orgID) {
         },
         raw: true
     }).spread(function (user) {
-        if (user) {
-            var verified = bcrypt.compareSync(password, user.password);
-            if (verified) {
-                return user;
-            } else {
-                return { error: 'email or Password Invalid!' };
-            }
-        } else {
-            return { error: 'email or Password Invalid!' };
-        }
+        return user;
     })
         .catch(function (err) {
             return { error: err };

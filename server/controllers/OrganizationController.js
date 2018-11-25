@@ -8,6 +8,8 @@ const sequelize = require('sequelize');
 const fs = require('fs');
 
 module.exports.createOrganization = (req, res) => {
+	console.log("Request Body:",req.body);
+	
 	if (req.body.imageName !== '') {
 		const buffer = new Buffer(req.body.image.split(',')[1], 'base64');
 
@@ -26,21 +28,24 @@ module.exports.createOrganization = (req, res) => {
 		visibility: req.body.visibility,
 		logoName: req.body.imageName === '' ? '' : `uploads/${req.body.imageName}`
 	};
-	models.User.find({ where: { email: req.body.email, role: 'admin' } }).then(user => {
+	models.Account.find({ where: { email: req.body.email, role: 'admin' } }).then(user => {
 		if (!user) {
 			Organization.create(newOrg)
 				.then((org, create) => {
 					if (create) {
+						console.log("Create:",create);
 					}
 					const newUser = {
 						name: req.body.name,
 						email: req.body.email,
-						password: req.body.password,
+						cognito_id: req.body.cognito_id,
 						adminStatus: 1,
 						role: 'admin',
 						organization_id: org.id
 					};
-					models.User.create(newUser)
+
+					console.log("Creating user:",newUser);
+					models.Account.create(newUser)
 						.then((user, create) => {
 							if (create) {
 							}
@@ -117,7 +122,7 @@ module.exports.getFullOrganizationData = function(req, res) {
 				// Get user info
 				const userRequest = models.sequelize
 					.query(
-						`SELECT u.name FROM users AS u join organizations AS o on u.organization_id = o.id WHERE u.organization_id = ${
+						`SELECT u.name FROM account AS u join organization AS o on u.organization_id = o.id WHERE u.organization_id = ${
 							org.id
 						};`
 					)
@@ -129,7 +134,7 @@ module.exports.getFullOrganizationData = function(req, res) {
 				const productRequest = [
 					models.sequelize
 						.query(
-							`SELECT p.name,o.id as organization_id, s.amount, p.id as product_id, s.id as stock_id FROM stocks AS s join organizations AS o on s.organization_id = o.id join products AS p on p.id = s.product_id WHERE p.organization_id = ${
+							`SELECT p.name,o.id as organization_id, s.amount, p.id as product_id, s.id as stock_id FROM stock AS s join organization AS o on s.organization_id = o.id join product AS p on p.id = s.product_id WHERE p.organization_id = ${
 								org.id
 							};`,
 							{ type: sequelize.QueryTypes.SELECT }
@@ -232,7 +237,7 @@ module.exports.getOrganizationByName = function(req, res) {
 			// Get user info
 			const userRequest = models.sequelize
 				.query(
-					`SELECT u.name,u.role,u.email FROM users AS u join organizations AS o on u.organization_id = o.id WHERE u.organization_id = ${
+					`SELECT u.name,u.role,u.email FROM account AS u join organization AS o on u.organization_id = o.id WHERE u.organization_id = ${
 						org.id
 					};`
 				)
@@ -244,7 +249,7 @@ module.exports.getOrganizationByName = function(req, res) {
 			const productRequest = [
 				models.sequelize
 					.query(
-						`SELECT p.name, s.amount, p.id as product_id, s.id as stock_id FROM stocks AS s join organizations AS o on s.organization_id = o.id join products AS p on p.id = s.product_id WHERE p.organization_id = ${
+						`SELECT p.name, s.amount, p.id as product_id, s.id as stock_id FROM stock AS s join organization AS o on s.organization_id = o.id join product AS p on p.id = s.product_id WHERE p.organization_id = ${
 							org.id
 						};`,
 						{ type: sequelize.QueryTypes.SELECT }

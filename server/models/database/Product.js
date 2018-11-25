@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 
     {
       tableName: 'product',
-      timestamps: true
+      timestamps: false
     }
   );
   Product.associate = (models) => {

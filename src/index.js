@@ -5,10 +5,16 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { MuiThemeProvider } from 'material-ui/styles';
+import Amplify from 'aws-amplify';
+
 import reducers from './reduxStore';
 import App from './areas/App';
 import registerServiceWorker from './registerServiceWorker';
+import awsExports from './aws-exports';
 import './index.css';
+
+Amplify.configure(awsExports);
+
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(

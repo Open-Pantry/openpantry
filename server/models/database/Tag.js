@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 
     {
       tableName: 'tag',
-      timestamps: true
+      timestamps: false
     }
   );
   Tag.associate = function (models) {};
