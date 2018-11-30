@@ -1,4 +1,5 @@
 import { handleActions, createAction } from 'redux-actions';
+import url from 'shared/config.js';
 
 import { Auth } from 'aws-amplify';
 const base = 'org/';
@@ -32,8 +33,6 @@ export const updateLocation = createAction(`${base}UPDATELOCATION`);
 export const updateImage = createAction(`${base}UPDATEIMAGE`);
 export const updateValidatedFields = createAction(`${base}UPDATEVALIDATEDFIELDS`);
 export const updateSuccessError = createAction(`${base}UPDATESUCCESSERROR`);
-
-const url = 'http://localhost:8080';
 
 
 export default handleActions(

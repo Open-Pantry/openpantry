@@ -1,6 +1,6 @@
 import { handleActions, createAction } from 'redux-actions';
 import { Auth } from 'aws-amplify';
-const url = 'http://localhost:8080';
+import url from 'shared/config.js';
 
 const base = 'login/';
 const INITIAL_STATE = {

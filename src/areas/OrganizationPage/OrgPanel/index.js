@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { grey50 } from 'material-ui/styles/colors';
+import url from 'shared/config.js';
 import Tag from 'shared/Tag';
 
 import './style.css';
@@ -111,7 +112,7 @@ class OrgPanel extends Component {
 
 	postTag() {
 		fetch(
-			`/api/tag/${this.state.newTagName}?organization_id=${this.state.organizationInfo.id}`,
+			`${url}/api/tag/${this.state.newTagName}?organization_id=${this.state.organizationInfo.id}`,
 			{ method: 'POST' }
 		)
 			.then(Response => Response.json())
@@ -126,7 +127,7 @@ class OrgPanel extends Component {
 	}
 
 	deleteTag(id) {
-		fetch(`http://localhost:8080/api/tag/${id}`, { method: 'DELETE' })
+		fetch(`${url}/api/tag/${id}`, { method: 'DELETE' })
 			.then(Response => Response.json())
 			.then(Response => {
 				this.props.getOrganization();

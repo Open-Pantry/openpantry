@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Dialog, FlatButton, GridList, GridTile, TextField } from 'material-ui';
+import url from 'shared/config.js';
 import './style.css';
 import Tag from 'shared/Tag';
 
@@ -29,7 +30,7 @@ class ProductPanel extends Component {
 
 	deleteProduct(productId) {
 		if (window.confirm('Are you sure you want to delete this product?')) {
-			fetch(`http://localhost:8080/api/product/${productId}`, { method: 'DELETE' })
+			fetch(`${url}/api/product/${productId}`, { method: 'DELETE' })
 				.then(Response => Response.json())
 				.then(Response => {
 					this.props.getOrganization();
@@ -48,7 +49,7 @@ class ProductPanel extends Component {
 				'content-type': 'application/json'
 			}
 		};
-		fetch('http://localhost:8080/api/product', config)
+		fetch(`${url}/api/product`, config)
 			.then(Response => Response.json())
 			.then(Response => {
 				const resetProduct = {
@@ -86,7 +87,7 @@ class ProductPanel extends Component {
 	}
 
 	deleteTag(id) {
-		fetch(`http://localhost:8080/api/tag/${id}`, { method: 'DELETE' })
+		fetch(`${url}/api/tag/${id}`, { method: 'DELETE' })
 			.then(Response => Response.json())
 			.then(Response => {
 				this.props.getOrganization();
@@ -94,7 +95,7 @@ class ProductPanel extends Component {
 	}
 
 	postTag() {
-		fetch(`http://localhost:8080/api/tag/${this.state.newProductTag}?product_id=${this.state.addingTag}`, {
+		fetch(`${url}/api/tag/${this.state.newProductTag}?product_id=${this.state.addingTag}`, {
 			method: 'POST'
 		})
 			.then(Response => Response.json())
@@ -109,7 +110,7 @@ class ProductPanel extends Component {
 	}
 
 	updateStock(product) {
-		fetch(`http://localhost:8080/api/stock`, {
+		fetch(`${url}/api/stock`, {
 			method: 'PUT',
 			body: JSON.stringify({
 				...product,

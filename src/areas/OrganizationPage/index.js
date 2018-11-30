@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Header from 'shared/Header';
 import SwipeableViews from 'react-swipeable-views';
 import { Tabs, Tab } from 'material-ui/Tabs';
+import url from 'shared/config.js';
 
 import EventPanel from './EventPanel';
 import MemberPanel from './MemberPanel';
@@ -98,7 +99,7 @@ class OrganizationView extends Component {
 			if (data.imageName !== null) {
 				config.image = data.image;
 			}
-			fetch(`http://localhost:8080/api/organization/${data.organizationInfo.id}`, config)
+			fetch(`${url}/api/organization/${data.organizationInfo.id}`, config)
 				.then(Response => Response.json())
 				.then(Response => {
 					if (Response.status === 400) {
@@ -217,7 +218,7 @@ class OrganizationView extends Component {
 	}
 
 	getOrganization() {
-		fetch(`http://localhost:8080/api/organization?organizationName=${this.props.match.params.orgId}`)
+		fetch(`${url}/api/organization?organizationName=${this.props.match.params.orgId}`)
 			.then(Response => Response.json())
 			.then(Response => {
 				if (Response.status === 400) {

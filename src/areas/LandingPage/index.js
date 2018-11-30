@@ -67,8 +67,6 @@ class LandingPage extends React.Component {
                     <div className="__landing-search-buttons">
                         <RaisedButton onClick={(e) => this.props.history.push("/signup")} className="__landing-search-button" label="Create Organization" secondary={true} />
                         <RaisedButton primary={true} onClick={this.enterSearchpage} className="__landing-search-button" type="Submit" label="Search" />
-                        <RaisedButton primary={true} onClick={() => this.props.testAuth(this.props.token)} className="__landing-search-button" type="Test" label="Test" />
-
                     </div>
                     <span onClick={() => this.props.history.push("/faq")}className="__landing-page-helptext">Need help? Search our help docs.</span>
                 </div>

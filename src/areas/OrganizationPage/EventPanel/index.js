@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Dialog, FlatButton, GridList, GridTile, TextField } from 'material-ui';
+import url from 'shared/config.js';
 
 import DateTimePicker from 'material-ui-datetimepicker';
 import DatePickerDialog from 'material-ui/DatePicker/DatePickerDialog';
@@ -44,7 +45,7 @@ class EventPanel extends Component {
 	setEndDate = dateTime => this.setState({ endTime: dateTime });
 
 	createNewEvent() {
-		fetch(`http://localhost:8080/api/event`, {
+		fetch(`${url}/api/event`, {
 			method: 'POST',
 			body: JSON.stringify({
 				name: this.state.newEvent.name,
@@ -64,7 +65,7 @@ class EventPanel extends Component {
 	}
 
 	postTag() {
-		fetch(`http://localhost:8080/api/tag/${this.state.newTagName}?event_id=${this.state.addingTag}`, {
+		fetch(`${url}/api/tag/${this.state.newTagName}?event_id=${this.state.addingTag}`, {
 			method: 'POST'
 		})
 			.then(Response => Response.json())
@@ -92,7 +93,7 @@ class EventPanel extends Component {
     }
 
 	deleteTag(id) {
-		fetch(`http://localhost:8080/api/tag/${id}`, { method: 'DELETE' })
+		fetch(`${url}/api/tag/${id}`, { method: 'DELETE' })
 			.then(Response => Response.json())
 			.then(Response => {
 				this.props.getOrganization();

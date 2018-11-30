@@ -1,5 +1,5 @@
 import { handleActions, createAction } from "redux-actions";
-const url = 'http://localhost:8080';
+import url from 'shared/config.js';
 
 const base = "org/";
 const INITIAL_STATE = {

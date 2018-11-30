@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Dialog, FlatButton, GridList, GridTile, TextField } from 'material-ui';
+import url from 'shared/config.js';
+
 import './style.css';
 
 class MemberPanel extends Component {
@@ -13,7 +15,7 @@ class MemberPanel extends Component {
 	}
 
 	createUserInvitation() {
-		fetch('http://localhost:8080/api/userinvite', {
+		fetch(`${url}/api/userinvite`, {
 			method: 'POST',
 			body: JSON.stringify({
 				email: this.state.newEmail.email,
