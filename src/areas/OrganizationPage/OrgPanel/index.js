@@ -126,7 +126,7 @@ class OrgPanel extends Component {
 	}
 
 	deleteTag(id) {
-		fetch(`/api/tag/${id}`, { method: 'DELETE' })
+		fetch(`http://localhost:8080/api/tag/${id}`, { method: 'DELETE' })
 			.then(Response => Response.json())
 			.then(Response => {
 				this.props.getOrganization();

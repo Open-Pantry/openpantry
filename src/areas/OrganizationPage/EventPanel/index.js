@@ -44,7 +44,7 @@ class EventPanel extends Component {
 	setEndDate = dateTime => this.setState({ endTime: dateTime });
 
 	createNewEvent() {
-		fetch(`/api/event`, {
+		fetch(`http://localhost:8080/api/event`, {
 			method: 'POST',
 			body: JSON.stringify({
 				name: this.state.newEvent.name,
@@ -64,7 +64,7 @@ class EventPanel extends Component {
 	}
 
 	postTag() {
-		fetch(`/api/tag/${this.state.newTagName}?event_id=${this.state.addingTag}`, {
+		fetch(`http://localhost:8080/api/tag/${this.state.newTagName}?event_id=${this.state.addingTag}`, {
 			method: 'POST'
 		})
 			.then(Response => Response.json())
@@ -92,7 +92,7 @@ class EventPanel extends Component {
     }
 
 	deleteTag(id) {
-		fetch(`/api/tag/${id}`, { method: 'DELETE' })
+		fetch(`http://localhost:8080/api/tag/${id}`, { method: 'DELETE' })
 			.then(Response => Response.json())
 			.then(Response => {
 				this.props.getOrganization();

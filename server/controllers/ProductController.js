@@ -4,6 +4,7 @@ var Stock = models.Stock;
 var Tag = models.Tag;
 
 module.exports.postTag = (req, res) => {
+
 	Tag.findOrCreate({
 		where: {
 			product_id: req.query.product_id,

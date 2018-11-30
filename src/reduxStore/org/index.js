@@ -1,4 +1,5 @@
 import { handleActions, createAction } from 'redux-actions';
+
 import { Auth } from 'aws-amplify';
 const base = 'org/';
 const INITIAL_STATE = {
@@ -31,6 +32,9 @@ export const updateLocation = createAction(`${base}UPDATELOCATION`);
 export const updateImage = createAction(`${base}UPDATEIMAGE`);
 export const updateValidatedFields = createAction(`${base}UPDATEVALIDATEDFIELDS`);
 export const updateSuccessError = createAction(`${base}UPDATESUCCESSERROR`);
+
+const url = 'http://localhost:8080';
+
 
 export default handleActions(
   {
@@ -127,7 +131,7 @@ export const createOrganization = payload => (dispatch) => {
       request.cognito_id = data.userSub;
       request.visibility = 1;
       console.log("Request Payload:",request);
-      fetch('/api/organization', {
+      fetch(`${url}/api/organization`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(request),
@@ -152,9 +156,9 @@ export const createOrganization = payload => (dispatch) => {
 };
 
 export const checkForCompany = payload => (dispatch) => {
-  fetch(`/api/organization?organizationName=${payload}`, {
+  fetch(`${url}/api/organization?organizationName=${payload}`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', organizationName: payload }
+    headers: { 'Content-Type': 'application/json' }
   })
     .then(response => response.json())
     .then((data) => {

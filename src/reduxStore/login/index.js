@@ -1,5 +1,6 @@
 import { handleActions, createAction } from 'redux-actions';
 import { Auth } from 'aws-amplify';
+const url = 'http://localhost:8080';
 
 const base = 'login/';
 const INITIAL_STATE = {
@@ -78,15 +79,15 @@ export default handleActions(
       userName: payload.email,
       name: 'Kyle',
       organizationName: payload.organizationName,
-      orgID: payload.orgID
+      orgID: parseInt(payload.orgID)
     }),
     [updateOrgStatus]: (state, { payload }) => ({
       ...state,
       orgExists: payload.status,
       logoURL: payload.logoName,
-      orgID: payload.orgID,
+      orgID: parseInt(payload.orgID),
       lastOrgNameChecked: payload.lastOrgNameChecked,
-      organizationName: payload.organizationName,
+      organizationName: payload.organization_name,
       validatedFields: payload.validatedFields
     }),
     [updateQuery]: (state, { payload }) => ({
@@ -152,7 +153,7 @@ export const logIn = payload => (dispatch, getState) => {
 }; // getApi
 
 export const firstLogIn = payload => (dispatch) => {
-  fetch('/api/firstLogin', {
+  fetch(`${url}/api/firstLogin`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
@@ -170,20 +171,21 @@ export const firstLogIn = payload => (dispatch) => {
 };
 
 export const checkForCompany = payload => (dispatch) => {
-  fetch(`/api/organizationsimple?organizationName=${payload}`, {
+  fetch(`${url}/api/organizationsimple?organizationName=${payload}`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', organizationName: payload }
+    headers: { 'Content-Type': 'application/json' }
   })
     .then(response => response.json())
     .then((data) => {
       // Update the state with the data
       // This will force the re-render of the component
+      console.log("Org Status:",data);
       if (data.status === 200) {
         dispatch(updateOrgStatus({
           status: true,
           validatedFields: true,
           orgID: data.org.id,
-          logoName: data.org.logoName,
+          logoName: data.org.logo_name,
           lastOrgNameChecked: payload,
           organizationName: payload
         }));

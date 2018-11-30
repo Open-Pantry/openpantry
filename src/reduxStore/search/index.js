@@ -1,11 +1,12 @@
-import { handleActions, createAction } from 'redux-actions';
+import { handleActions, createAction } from "redux-actions";
+const url = 'http://localhost:8080';
 
-const base = 'org/';
+const base = "org/";
 const INITIAL_STATE = {
-  searchValue: '',
+  searchValue: "",
   prevSearch: null,
-  query: '',
-  fancyResults: localStorage['openpantry-results-style'] != 'false',
+  query: "",
+  fancyResults: localStorage["openpantry-results-style"] != "false",
   data: {},
   orgs: null,
   events: null,
@@ -14,7 +15,7 @@ const INITIAL_STATE = {
   userLat: null,
   searchTime: 0,
   userLng: null,
-  imageStartUrl: 'http://localhost:8080/'
+  imageStartUrl: "http://localhost:8080/"
 };
 
 const setError = createAction(`${base}ERROR`);
@@ -80,22 +81,24 @@ export default handleActions(
 export const toggleResults = payload => (dispatch, getState) => {
   dispatch(toggleResult());
   const { fancyResults } = getState().search;
-  localStorage.setItem('openpantry-results-style', fancyResults);
+  localStorage.setItem("openpantry-results-style", fancyResults);
 };
 
-export const loadSearchData = payload => async (dispatch) => {
-  await fetch('/api/organizationsfull', {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
+export const loadSearchData = payload => async dispatch => {
+  await fetch(`${url}/api/organizationsfull`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
   })
     .then(response => response.json())
-    .then((data) => {
+    .then(data => {
       // Update the state with the data
       // This will force the re-render of the component
       if (data.status === 200) {
-        dispatch(updateSearchData({
-          data: data.orgs
-        }));
+        dispatch(
+          updateSearchData({
+            data: data.orgs
+          })
+        );
       } else {
         dispatch(setError(data));
       }
@@ -113,14 +116,18 @@ export const filterResults = payload => (dispatch, getState) => {
     const eventsArr = [];
     const orgArr = [];
 
-    data.forEach((organization) => {
+    data.forEach(organization => {
       let orgRelevant = false;
-      organization.products.forEach((product) => {
+      organization.products.forEach(product => {
         if (product.name.includes(payload) || payload.includes(product.name)) {
           productsArr.push(product);
           orgRelevant = true;
         } else if (
-          product.tags.some(productTag => productTag.name.includes(payload) || payload.includes(productTag.name))
+          product.tags.some(
+            productTag =>
+              productTag.name.includes(payload) ||
+              payload.includes(productTag.name)
+          )
         ) {
           productsArr.push(product);
           orgRelevant = true;
@@ -129,12 +136,15 @@ export const filterResults = payload => (dispatch, getState) => {
         // We have to keep checking if the tag is contained in the product
       }); // For each product in the organization
 
-      organization.events.forEach((event) => {
+      organization.events.forEach(event => {
         if (event.name.includes(payload) || payload.includes(event.name)) {
           eventsArr.push(event);
           orgRelevant = true;
         } else if (
-          event.tags.some(eventTag => eventTag.name.includes(payload) || payload.includes(eventTag.name))
+          event.tags.some(
+            eventTag =>
+              eventTag.name.includes(payload) || payload.includes(eventTag.name)
+          )
         ) {
           eventsArr.push(event);
           orgRelevant = true;
@@ -147,19 +157,24 @@ export const filterResults = payload => (dispatch, getState) => {
         !orgRelevant &&
         (organization.name.includes(payload) ||
           payload.includes(organization.name) ||
-          organization.tags.some(orgTag => orgTag.name.includes(payload) || payload.includes(orgTag.name)))
+          organization.tags.some(
+            orgTag =>
+              orgTag.name.includes(payload) || payload.includes(orgTag.name)
+          ))
       ) {
         orgArr.push(organization);
       }
     }); // For each organization
 
-    dispatch(updateFilteredResults({
-      orgs: orgArr,
-      events: eventsArr,
-      products: productsArr,
-      searchTime: new Date() - startTime,
-      prevSearch: payload
-    }));
+    dispatch(
+      updateFilteredResults({
+        orgs: orgArr,
+        events: eventsArr,
+        products: productsArr,
+        searchTime: new Date() - startTime,
+        prevSearch: payload
+      })
+    );
   } else {
     dispatch(updateNothing());
   }
@@ -168,18 +183,18 @@ export const filterResults = payload => (dispatch, getState) => {
 export const testAuth = payload => (dispatch, getState) => {
   const { token } = getState().login;
 
-  fetch('api/auth/test', {
-    method: 'GET',
+  fetch("http://localhost:8080/api/auth/test", {
+    method: "GET",
     headers: {
       x_token: token
     }
   })
-    .then((data) => {
-      console.log('data:', data);
+    .then(data => {
+      console.log("data:", data);
       dispatch(updateNothing());
     })
-    .catch((err) => {
-      console.log('Error authing with test endpoint:', err);
+    .catch(err => {
+      console.log("Error authing with test endpoint:", err);
       dispatch(updateNothing());
     });
 };

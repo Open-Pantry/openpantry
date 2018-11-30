@@ -17,6 +17,8 @@ class EventModal extends React.Component {
 	}
 	getFormattedTime(time,from) {
 		let newTime = new Date(time);
+		console.log("Time:",newTime);
+		
 		if (newTime !== null) {
 			return `${monthNames[newTime.getMonth()]} ${this.getOrdinalNum(newTime.getDate())}, ${newTime.getFullYear()} ${from?"from":"to"} ${ newTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}`;
 		}

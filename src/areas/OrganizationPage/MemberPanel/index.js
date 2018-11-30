@@ -13,7 +13,7 @@ class MemberPanel extends Component {
 	}
 
 	createUserInvitation() {
-		fetch('/api/userinvite', {
+		fetch('http://localhost:8080/api/userinvite', {
 			method: 'POST',
 			body: JSON.stringify({
 				email: this.state.newEmail.email,
@@ -106,7 +106,7 @@ class MemberPanel extends Component {
 								<div key={index} className="member-container">
 									<div className="__member-info-name">
 									{m.name}
-									<a class="mailto" href={`mailto:${m.email}`}>
+									<a className="mailto" href={`mailto:${m.email}`}>
 									<i className="material-icons expand-question">
 										mail
 									</i></a>

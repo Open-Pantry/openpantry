@@ -13,7 +13,7 @@ const OrganizationController = require('./controllers/OrganizationController.js'
 const ProductController = require('./controllers/ProductController.js');
 const EventController = require('./controllers/EventController.js');
 
-const Auth = require('./middleware/auth.js');
+// const Auth = require('./middleware/auth.js');
 
 
 models.sequelize.authenticate().then(

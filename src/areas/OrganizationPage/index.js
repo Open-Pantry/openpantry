@@ -98,7 +98,7 @@ class OrganizationView extends Component {
 			if (data.imageName !== null) {
 				config.image = data.image;
 			}
-			fetch(`/api/organization/${data.organizationInfo.id}`, config)
+			fetch(`http://localhost:8080/api/organization/${data.organizationInfo.id}`, config)
 				.then(Response => Response.json())
 				.then(Response => {
 					if (Response.status === 400) {
@@ -113,6 +113,8 @@ class OrganizationView extends Component {
 	}
 
 	getOrganizationPanels() {
+		console.log("State.OrgInfo:",this.state.organizationInfo);
+		console.log("loginData:",this.props.loginData);
 		if (this.state.combinedPanel) {
 			return (
 				<div className="organization">
@@ -215,7 +217,7 @@ class OrganizationView extends Component {
 	}
 
 	getOrganization() {
-		fetch(`/api/organization?organizationName=${this.props.match.params.orgId}`)
+		fetch(`http://localhost:8080/api/organization?organizationName=${this.props.match.params.orgId}`)
 			.then(Response => Response.json())
 			.then(Response => {
 				if (Response.status === 400) {
