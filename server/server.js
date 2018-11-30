@@ -86,11 +86,14 @@ app.post('/api/user', userController.createUser);
 
 const templateCache = new TemplateCache();
 console.log('Creating new template cache!\n');
+
+var port = process.env.PORT || 3000;
+
 Promise.all([templateCache.loadTemplateCache()]).then(() => {
   console.log('Email templates loaded.');
   models.sequelize.sync({ force: false }).then(() => {
-    app.listen(8080, () => {
-      console.log('\n\n\n\n\n\nExpress server listening\n');
+    app.listen(port, () => {
+      console.log('\n\n\n\n\n\nExpress server listening on port '+port+'\n\n\n\n');
     });
   });
 });

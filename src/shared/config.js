@@ -1,3 +1,3 @@
-const url = 'http://openpantry.us-east-1.elasticbeanstalk.com:8080';
+const url = 'http://openpantry.us-east-1.elasticbeanstalk.com:8081';
 
 export default url;
